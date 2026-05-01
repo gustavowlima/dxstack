@@ -1,0 +1,28 @@
+{
+  "skill_name": "senior-planner",
+  "evals": [
+    {
+      "id": 0,
+      "name": "google-oauth-plan",
+      "prompt": "Crie um plano para implementar um sistema de autenticação via Google OAuth no app web.",
+      "expected_output": "A plan file in .plans/ that references @docs/backend/architecture.md and includes tasks for Zod schemas and API contracts.",
+      "assertions": [
+        {
+          "name": "Documentation references present",
+          "passed": false,
+          "text": "The plan should contain a section for ## Documentation References with @docs/ links."
+        },
+        {
+          "name": "Backend tasks follow architecture",
+          "passed": false,
+          "text": "The plan should include tasks for *.schema.ts, *.contract.ts, and *.service.ts."
+        },
+        {
+          "name": "Frontend uses TanStack Form",
+          "passed": false,
+          "text": "The plan should mention using TanStack Form in the Frontend section."
+        }
+      ]
+    }
+  ]
+}
