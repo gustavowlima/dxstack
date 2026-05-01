@@ -1,0 +1,26 @@
+{
+  "name": "@stack/api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "start": "bun run src/index.ts",
+    "build": "bun build src/index.ts --outdir dist --target bun",
+    "typecheck": "tsc --noEmit",
+    "check": "biome check ."
+  },
+  "dependencies": {
+    "@orpc/server": "catalog:api",
+    "@orpc/zod": "catalog:api",
+    "@stack/shared": "workspace:*",
+    "hono": "catalog:api",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "catalog:",
+    "@types/bun": "latest",
+    "@types/node": "catalog:",
+    "typescript": "catalog:",
+    "ultracite": "catalog:"
+  }
+}

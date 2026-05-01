@@ -1,0 +1,43 @@
+{
+  "name": "stack",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "catalog": {
+    "@biomejs/biome": "2.4.5",
+    "@types/node": "^22.10.2",
+    "typescript": "^6.0.2",
+    "ultracite": "latest",
+    "zod": "^4.3.6"
+  },
+  "catalogs": {
+    "api": {
+      "@orpc/client": "latest",
+      "@orpc/server": "latest",
+      "@orpc/zod": "latest",
+      "hono": "^4.0.0"
+    },
+    "testing": {
+      "@testing-library/dom": "^10.4.1",
+      "@testing-library/react": "^16.3.0",
+      "jsdom": "^28.1.0",
+      "vitest": "^4.1.5"
+    }
+  },
+  "scripts": {
+    "dev": "bun run --filter './apps/*' dev",
+    "dev:web": "bun run --cwd apps/web dev",
+    "dev:api": "bun run --cwd apps/api dev",
+    "build": "bun run --filter './apps/*' build",
+    "check": "biome check .",
+    "format": "biome format --write .",
+    "typecheck": "bun run --filter '*' typecheck"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "catalog:",
+    "typescript": "catalog:",
+    "ultracite": "catalog:"
+  }
+}
