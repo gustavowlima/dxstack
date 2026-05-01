@@ -11,5 +11,9 @@ Guidelines for using and creating components in the project's Design System (`pa
 - **React 19 Standard:** NEVER use `React.forwardRef`. In React 19, `ref` is passed as a regular prop automatically.
 - **Primitives:** DO NOT use Radix UI. Always use Base UI / ReUI as the foundation for complex components.
 - **Theming:** Must strictly follow the CSS variables structure from Shadcn UI (`https://ui.shadcn.com/docs/theming`) but adapted to ReUI components.
-- **Adding Components:** When a new component is needed, prioritize adding it via the CLI if applicable, and always refer to the ReUI documentation at `https://reui.io/llms.txt` for structural and headless adaptation. Always read `packages/theming.md` to apply tokens correctly.
+- **Adding Components:** Use the shadcn CLI with the ReUI registry as the primary method:
+  1. Run `bunx shadcn@latest add @reui/<component-name>` — components land in `packages/ui` ready to use.
+  2. If the component is not available in the registry, refer to `https://reui.io/llms.txt` for structural and headless adaptation.
+  3. Always read `packages/theming.md` before styling any component.
+  - The ReUI registry must be configured in `components.json`: `"registries": { "@reui": "https://reui.io/r/{style}/{name}.json" }`
 - The frontend should consume visual elements primarily from this package, avoiding recreating base components.
