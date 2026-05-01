@@ -24,6 +24,7 @@ Index and usage guide of the documentation for AI.
   - `contracts.md` (Static API definition)
   - `validation.md` (Centralized Zod in the API)
 - `/packages/`
-  - `ui.md` (Design System, Tailwind CSS, and Base Components)
+  - `ui.md` (Design System, component rules, and ReUI)
+  - `theming.md` (CSS variables, token contract, and how to change the theme)
 - `/features/`
   - `users.md` (Example of folder structure for frontend and backend)
