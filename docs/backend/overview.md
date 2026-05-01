@@ -1,8 +1,10 @@
 ## Purpose
-Visão geral do sistema de Backend.
+
+Overview of the Backend system.
 
 ## Rules
-* Utiliza Hono + RPC
-* Totalmente focado em organização feature-based
-* O frontend se comunica via client tipado pelo RPC
-* Zod atua como o validador base e fonte de verdade
+
+- Uses Hono + RPC
+- Fully focused on feature-based organization
+- Frontend communicates via a typed RPC client
+- Zod acts as the base validator and single source of truth

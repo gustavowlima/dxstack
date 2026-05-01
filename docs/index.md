@@ -1,25 +1,29 @@
 ## Purpose
-Índice e guia de uso da documentação para IA.
+
+Index and usage guide of the documentation for AI.
 
 ## Rules
-* INSTRUÇÃO CRÍTICA: A IA deve ler apenas 2–3 arquivos por tarefa
-* NUNCA carregue toda a documentação
-* Busque as diretrizes específicas apenas quando a tarefa for interagir com determinada área
 
-## Docs Disponíveis
+- CRITICAL INSTRUCTION: The AI must read ONLY 2–3 files per task
+- NEVER load the entire documentation
+- Fetch specific guidelines only when the task interacts with that specific area
 
-* `/_core/`
-  * `project-overview.md` (Stack e regras gerais)
-  * `conventions.md` (Padrões, nomes e tamanho)
-* `/frontend/`
-  * `overview.md` (TanStack base)
-  * `architecture.md` (Estrutura de pastas da feature UI)
-  * `forms.md` (TanStack Form + Zod)
-  * `data-fetching.md` (RPC Hooks)
-* `/backend/`
-  * `overview.md` (Hono + RPC base)
-  * `architecture.md` (Rotas, controllers, services)
-  * `contracts.md` (Definição estática da API)
-  * `validation.md` (Zod centralizado na API)
-* `/features/`
-  * `users.md` (Exemplo de pastas para frontend e backend)
+## Available Docs
+
+- `/_core/`
+  - `project-overview.md` (Stack and general rules)
+  - `conventions.md` (Patterns, naming, and size)
+- `/frontend/`
+  - `overview.md` (TanStack base)
+  - `architecture.md` (UI feature folder structure)
+  - `forms.md` (TanStack Form + Zod)
+  - `data-fetching.md` (RPC Hooks)
+- `/backend/`
+  - `overview.md` (Hono + RPC base)
+  - `architecture.md` (Routes, controllers, services)
+  - `contracts.md` (Static API definition)
+  - `validation.md` (Centralized Zod in the API)
+- `/packages/`
+  - `ui.md` (Design System, Tailwind CSS, and Base Components)
+- `/features/`
+  - `users.md` (Example of folder structure for frontend and backend)

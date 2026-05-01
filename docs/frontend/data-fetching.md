@@ -1,7 +1,9 @@
 ## Purpose
-Gerenciamento e busca de dados (Data Fetching).
+
+Data fetching and management strategy.
 
 ## Rules
-* Usar o cliente RPC provido pela API (Backend)
-* Não utilizar `fetch` nativo de forma espalhada ou direta na UI
-* Concentrar toda a lógica de comunicação/buscas em `hooks` customizados
+
+- Use the RPC client provided by the API (Backend)
+- Do not use native `fetch` scattered or directly in the UI
+- Centralize all communication/fetching logic inside custom `hooks`

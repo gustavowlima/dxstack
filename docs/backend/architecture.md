@@ -1,13 +1,15 @@
 ## Purpose
-Estrutura e responsabilidades de camadas no backend.
+
+Structure and layer responsibilities in the backend.
 
 ## Rules
-* Pastas organizadas como `/features/[nome]`
-* Divisão obrigatória de arquivos:
-  * `*.route.ts`: entrada HTTP/RPC da feature
-  * `*.controller.ts`: adaptação do formato de request/response
-  * `*.service.ts`: orquestração e regra de negócio
-  * `*.repository.ts`: interface de acesso ao banco de dados
-  * `*.schema.ts`: definições e validações do Zod
-  * `*.contract.ts`: definição estrita da API (input e output)
-  * `*.types.ts`: tipagens utilitárias de domínio local
+
+- Folders organized as `/features/[name]`
+- Mandatory file split:
+  - `*.route.ts`: HTTP/RPC entry point for the feature
+  - `*.controller.ts`: request/response format adaptation
+  - `*.service.ts`: orchestration and business logic
+  - `*.repository.ts`: database access interface
+  - `*.schema.ts`: Zod definitions and validations
+  - `*.contract.ts`: strict API definition (input and output)
+  - `*.types.ts`: local domain utility types

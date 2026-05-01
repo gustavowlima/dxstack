@@ -1,8 +1,10 @@
 ## Purpose
-Visão geral e regras base do frontend.
+
+Overview and base rules for the frontend.
 
 ## Rules
-* Utiliza TanStack Start
-* Orientado a feature-based architecture
-* Componentes focados puramente na interface de usuário (UI)
-* Extrair estado e lógica complexa para hooks
+
+- Uses TanStack Start
+- Strictly follows a feature-based architecture
+- Components must focus purely on user interface (dumb components)
+- Extract state and complex logic into hooks

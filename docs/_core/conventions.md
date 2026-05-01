@@ -1,10 +1,12 @@
 ## Purpose
-Convenções globais de código e organização.
+
+Global code and organizational conventions.
 
 ## Rules
-* Usar kebab-case em TODOS os arquivos
-* Cada arquivo deve ter uma única responsabilidade
-* Arquivos devem ser pequenos (máx ~100–150 linhas)
-* Organização de pastas deve ser dividida por features
-* Nunca duplicar informação ou lógica
-* Sempre preferir referenciar ao invés de repetir
+
+- Use kebab-case for ALL files
+- Each file must have a single responsibility
+- Files must be small (max ~100–150 lines)
+- Directory organization must be feature-based
+- Never duplicate information or logic
+- Always prefer referencing over repeating

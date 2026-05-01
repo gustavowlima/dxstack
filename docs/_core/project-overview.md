@@ -1,10 +1,12 @@
 ## Purpose
-Visão geral do projeto e stack tecnológica.
+
+Project overview and technology stack.
 
 ## Rules
-* Frontend: TanStack Start (feature-based)
-* Backend: Hono com RPC
-* Validação: Zod (fonte única da verdade)
-* Forms: TanStack Form com Zod
-* Arquitetura: Monorepo
-* Princípios centrais: feature-based, API como fonte da verdade e Zod centralizado.
+
+- Frontend: TanStack Start (feature-based)
+- Backend: Hono with RPC
+- Validation: Zod (single source of truth)
+- Forms: TanStack Form with Zod
+- Architecture: Monorepo
+- Core principles: feature-based, API as the source of truth, and centralized Zod schemas.
