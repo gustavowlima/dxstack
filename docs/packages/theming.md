@@ -2,6 +2,12 @@
 
 Single source of truth for the theming system. Changing the visual identity of any app means editing only `globals.css` — never touching components.
 
+## Location
+
+- Theme file: `packages/ui/src/globals.css`
+- Apps import it via: `@import "@stack/ui/globals.css"` in their own `styles.css`
+- To change the theme: edit `packages/ui/src/globals.css` only — all apps update automatically
+
 ## Architecture
 
 The theme is built on three layers:

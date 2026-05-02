@@ -5,16 +5,16 @@
   "tsx": true,
   "tailwind": {
     "config": "",
-    "css": "src/globals.css",
+    "css": "src/styles.css",
     "baseColor": "neutral",
     "cssVariables": true,
     "prefix": ""
   },
   "aliases": {
-    "components": "@stack/ui/components",
+    "components": "#/components",
     "utils": "@stack/ui/utils",
     "ui": "@stack/ui/components",
-    "hooks": "@stack/ui/hooks"
+    "hooks": "#/hooks"
   },
   "iconLibrary": "@tabler/icons-react",
   "registries": {

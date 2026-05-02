@@ -5,7 +5,10 @@
     "jsx": "react-jsx",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@stack/ui/components/*": ["./src/components/*"],
+      "@stack/ui/utils": ["./src/utils.ts"],
+      "@stack/ui/hooks/*": ["./src/hooks/*"]
     },
     "allowImportingTsExtensions": true,
     "noUncheckedSideEffectImports": true
