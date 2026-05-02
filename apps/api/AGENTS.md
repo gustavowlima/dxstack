@@ -8,6 +8,7 @@ The API is built with **Hono** and **oRPC**.
 - **Context:** The oRPC context includes the database client and potentially auth session.
 
 ## Rules
+- **CRITICAL:** ALWAYS follow the rules and guidelines defined in `docs/index.md`.
 - Use oRPC for all client-facing endpoints.
 - Business logic should be kept clean and modular.
 - Always use Zod schemas from `@stack/shared` for input/output validation.

@@ -1,11 +1,32 @@
 import { implement } from "@orpc/server"
 import { router } from "@stack/shared/contracts"
+import type { auth } from "../lib/auth"
 
-const i = implement(router)
+type Context = {
+  user: typeof auth.$Infer.Session.user | null
+  session: typeof auth.$Infer.Session.session | null
+}
+
+const i = implement(router).$context<Context>()
+
+// Example of a protected middleware
+// const authed = i.middleware(({ context, next }) => {
+//   if (!context.user) {
+//     throw new Error("Unauthorized")
+//   }
+//   return next({
+//     context: {
+//       user: context.user,
+//       session: context.session,
+//     },
+//   })
+// })
 
 export const appRouter = i.router({
   ping: i.ping.handler(() => ({ timestamp: Date.now() })),
   hello: i.hello.handler(({ input }) => ({ message: `Hello, ${input.name} from @stack/api!` })),
-})
 
+  // Example of how to use the middleware:
+  // me: i.me.use(authed).handler(({ context }) => context.user),
+})
 export type AppRouter = typeof appRouter

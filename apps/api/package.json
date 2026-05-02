@@ -10,9 +10,13 @@
     "check": "biome check ."
   },
   "dependencies": {
+    "@better-auth/drizzle-adapter": "^1.6.9",
     "@orpc/server": "catalog:api",
     "@orpc/zod": "catalog:api",
+    "@stack/db": "workspace:*",
+    "@stack/env": "workspace:*",
     "@stack/shared": "workspace:*",
+    "better-auth": "^1.6.9",
     "hono": "catalog:api",
     "zod": "catalog:"
   },
