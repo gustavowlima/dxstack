@@ -1,6 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema.json",
-  "style": "base-nova",
+  "style": "new-york",
   "rsc": false,
   "tsx": true,
   "tailwind": {
@@ -16,8 +16,5 @@
     "ui": "@stack/ui/components",
     "hooks": "@stack/ui/hooks"
   },
-  "iconLibrary": "@tabler/icons-react",
-  "registries": {
-    "@reui": "https://reui.io/r/{style}/{name}.json"
-  }
+  "iconLibrary": "lucide"
 }
