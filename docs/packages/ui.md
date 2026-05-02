@@ -6,6 +6,7 @@ Guidelines for using and creating components in the project's Design System (`pa
 
 - The package acts as a consistent and highly customizable Design System.
 - Uses Tailwind CSS v4 with CSS-variable theming — see `packages/theming.md`.
+- Icon library: `@tabler/icons-react` — always use Tabler icons, never lucide or other icon sets.
 - Components must be purely visual (dumb components), decoupled from business logic.
 - CRITICAL INSTRUCTION: When creating or editing components, the AI must always load the `frontend-design`, `tailwind-design-system`, and `shadcn` skills.
 - **React 19 Standard:** NEVER use `React.forwardRef`. In React 19, `ref` is passed as a regular prop automatically.
