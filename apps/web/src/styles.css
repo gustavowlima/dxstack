@@ -1,5 +1,7 @@
 @import "@stack/ui/globals.css";
 
+@source "../../../packages/ui/src";
+
 * {
   box-sizing: border-box;
 }
@@ -12,4 +14,6 @@ body,
 
 body {
   margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

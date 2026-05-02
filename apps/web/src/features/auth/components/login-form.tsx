@@ -1,6 +1,5 @@
 import { useForm } from "@tanstack/react-form";
 import { Button } from "@stack/ui/components/button";
-
 import {
   Card,
   CardContent,
@@ -17,9 +16,21 @@ import {
   TabsList,
   TabsTrigger,
 } from "@stack/ui/components/tabs";
-import { IconBrandGoogle, IconLoader2 } from "@tabler/icons-react";
+import {
+  IconBrandGoogle,
+  IconLoader2,
+  IconShieldLock,
+} from "@tabler/icons-react";
 import { useAuth } from "../hooks/use-auth";
 import { loginSchema, signUpSchema } from "../schemas/auth";
+
+function FieldError({ errors }: { errors: unknown[] | undefined }) {
+  if (!errors?.length) return null;
+  const messages = errors.map((e) =>
+    typeof e === "string" ? e : (e as { message: string }).message
+  );
+  return <p className="text-xs text-destructive">{messages.join(", ")}</p>;
+}
 
 export function LoginForm() {
   const {
@@ -34,27 +45,16 @@ export function LoginForm() {
   } = useAuth();
 
   const signInForm = useForm({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-    validators: {
-      onChange: loginSchema,
-    },
+    defaultValues: { email: "", password: "" },
+    validators: { onChange: loginSchema },
     onSubmit: async ({ value }) => {
       await loginWithEmail(value.email, value.password);
     },
   });
 
   const signUpForm = useForm({
-    defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-    },
-    validators: {
-      onChange: signUpSchema,
-    },
+    defaultValues: { name: "", email: "", password: "" },
+    validators: { onChange: signUpSchema },
     onSubmit: async ({ value }) => {
       await signUpWithEmail(value.email, value.password, value.name);
     },
@@ -62,7 +62,7 @@ export function LoginForm() {
 
   if (isSessionLoading) {
     return (
-      <div className="flex h-[400px] w-full items-center justify-center">
+      <div className="flex h-full w-full items-center justify-center">
         <IconLoader2 className="animate-spin text-muted-foreground" />
       </div>
     );
@@ -71,19 +71,26 @@ export function LoginForm() {
   if (session) {
     return (
       <Card className="w-full max-w-sm">
-        <CardHeader>
+        <CardHeader className="items-center text-center">
+          <div className="mb-2 flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+            <IconShieldLock className="size-6" />
+          </div>
           <CardTitle>Welcome back</CardTitle>
           <CardDescription>
-            You are signed in as {session.user.name}
+            Signed in as{" "}
+            <span className="font-medium text-foreground">
+              {session.user.name}
+            </span>
           </CardDescription>
         </CardHeader>
-        <CardContent className="grid gap-4">
-          <div className="flex items-center gap-4 rounded-lg border p-4">
-            <div className="flex-1 space-y-1">
-              <p className="text-sm font-medium leading-none">
-                {session.user.name}
-              </p>
-              <p className="text-sm text-muted-foreground">
+        <CardContent>
+          <div className="flex items-center gap-3 rounded-lg border bg-muted/40 p-3">
+            <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-background font-semibold text-primary shadow-sm">
+              {session.user.name?.[0]?.toUpperCase()}
+            </div>
+            <div className="min-w-0">
+              <p className="truncate text-sm font-medium">{session.user.name}</p>
+              <p className="truncate text-xs text-muted-foreground">
                 {session.user.email}
               </p>
             </div>
@@ -99,7 +106,7 @@ export function LoginForm() {
             {isAuthLoading && (
               <IconLoader2 className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Sign Out
+            Sign out
           </Button>
         </CardFooter>
       </Card>
@@ -107,217 +114,209 @@ export function LoginForm() {
   }
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader className="text-center">
-        <CardTitle className="text-2xl font-bold tracking-tight">
-          Access your account
-        </CardTitle>
-        <CardDescription>
-          Enter your credentials below to continue
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Tabs defaultValue="signin" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-6">
-            <TabsTrigger value="signin">Sign In</TabsTrigger>
-            <TabsTrigger value="signup">Sign Up</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="signin">
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                signInForm.handleSubmit();
-              }}
-              className="space-y-4"
-            >
-              <signInForm.Field
-                name="email"
-                children={(field) => (
-                  <div className="grid gap-2">
-                    <Label htmlFor={field.name}>Email</Label>
-                    <Input
-                      id={field.name}
-                      name={field.name}
-                      value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                      placeholder="m@example.com"
-                    />
-                    {field.state.meta.errors ? (
-                      <em className="text-[0.8rem] font-medium text-destructive">
-                        {field.state.meta.errors.join(", ")}
-                      </em>
-                    ) : null}
-                  </div>
-                )}
-              />
-              <signInForm.Field
-                name="password"
-                children={(field) => (
-                  <div className="grid gap-2">
-                    <Label htmlFor={field.name}>Password</Label>
-                    <Input
-                      id={field.name}
-                      name={field.name}
-                      type="password"
-                      value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                    />
-                    {field.state.meta.errors ? (
-                      <em className="text-[0.8rem] font-medium text-destructive">
-                        {field.state.meta.errors.join(", ")}
-                      </em>
-                    ) : null}
-                  </div>
-                )}
-              />
-              {authError && (
-                <p className="text-sm text-destructive font-medium">
-                  {authError}
-                </p>
-              )}
-              <Button type="submit" className="w-full" disabled={isAuthLoading}>
-                {isAuthLoading && (
-                  <IconLoader2 className="mr-2 h-4 w-4 animate-spin" />
-                )}
-                Sign In
-              </Button>
-            </form>
-          </TabsContent>
-
-          <TabsContent value="signup">
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                signUpForm.handleSubmit();
-              }}
-              className="space-y-4"
-            >
-              <signUpForm.Field
-                name="name"
-                children={(field) => (
-                  <div className="grid gap-2">
-                    <Label htmlFor={field.name}>Name</Label>
-                    <Input
-                      id={field.name}
-                      name={field.name}
-                      value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                      placeholder="John Doe"
-                    />
-                    {field.state.meta.errors ? (
-                      <em className="text-[0.8rem] font-medium text-destructive">
-                        {field.state.meta.errors.join(", ")}
-                      </em>
-                    ) : null}
-                  </div>
-                )}
-              />
-              <signUpForm.Field
-                name="email"
-                children={(field) => (
-                  <div className="grid gap-2">
-                    <Label htmlFor={`${field.name}-signup`}>Email</Label>
-                    <Input
-                      id={`${field.name}-signup`}
-                      name={field.name}
-                      value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                      placeholder="m@example.com"
-                    />
-                    {field.state.meta.errors ? (
-                      <em className="text-[0.8rem] font-medium text-destructive">
-                        {field.state.meta.errors.join(", ")}
-                      </em>
-                    ) : null}
-                  </div>
-                )}
-              />
-              <signUpForm.Field
-                name="password"
-                children={(field) => (
-                  <div className="grid gap-2">
-                    <Label htmlFor={`${field.name}-signup`}>Password</Label>
-                    <Input
-                      id={`${field.name}-signup`}
-                      name={field.name}
-                      type="password"
-                      value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                    />
-                    {field.state.meta.errors ? (
-                      <em className="text-[0.8rem] font-medium text-destructive">
-                        {field.state.meta.errors.join(", ")}
-                      </em>
-                    ) : null}
-                  </div>
-                )}
-              />
-              {authError && (
-                <p className="text-sm text-destructive font-medium">
-                  {authError}
-                </p>
-              )}
-              <Button type="submit" className="w-full" disabled={isAuthLoading}>
-                {isAuthLoading && (
-                  <IconLoader2 className="mr-2 h-4 w-4 animate-spin" />
-                )}
-                Create account
-              </Button>
-            </form>
-          </TabsContent>
-        </Tabs>
-
-        <div className="relative my-8">
-          <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t" />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">
-              Or continue with
-            </span>
-          </div>
-        </div>
-
-        <Button
-          variant="outline"
-          className="w-full"
-          onClick={handleGoogleLogin}
-          disabled={isAuthLoading}
-        >
-          {!isAuthLoading && <IconBrandGoogle className="mr-2 h-4 w-4" />}
-          {isAuthLoading && (
-            <IconLoader2 className="mr-2 h-4 w-4 animate-spin" />
-          )}
-          Google
-        </Button>
-      </CardContent>
-      <CardFooter>
-        <p className="px-8 text-center text-sm text-muted-foreground leading-relaxed">
-          By clicking continue, you agree to our{" "}
-          <a
-            href="#"
-            className="underline underline-offset-4 hover:text-primary transition-colors"
-          >
-            Terms of Service
-          </a>{" "}
-          and{" "}
-          <a
-            href="#"
-            className="underline underline-offset-4 hover:text-primary transition-colors"
-          >
-            Privacy Policy
-          </a>
-          .
+    <div className="w-full max-w-sm space-y-6">
+      <div className="space-y-1 text-center">
+        <h1 className="text-2xl font-bold tracking-tight">Stack Start</h1>
+        <p className="text-sm text-muted-foreground">
+          Sign in to your account to continue
         </p>
-      </CardFooter>
-    </Card>
+      </div>
+
+      <Card>
+        <CardContent className="flex flex-col gap-6 p-6">
+          <Tabs defaultValue="signin" className="flex-col">
+            <TabsList className="flex w-full">
+              <TabsTrigger value="signin" className="flex-1">Sign in</TabsTrigger>
+              <TabsTrigger value="signup" className="flex-1">Sign up</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="signin">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  signInForm.handleSubmit();
+                }}
+                className="flex flex-col gap-4 pt-4"
+              >
+                <signInForm.Field
+                  name="email"
+                  children={(field) => (
+                    <div className="flex flex-col gap-1.5">
+                      <Label htmlFor={field.name}>Email</Label>
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        type="email"
+                        autoComplete="email"
+                        placeholder="name@example.com"
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                      <FieldError errors={field.state.meta.errors} />
+                    </div>
+                  )}
+                />
+                <signInForm.Field
+                  name="password"
+                  children={(field) => (
+                    <div className="flex flex-col gap-1.5">
+                      <div className="flex items-center justify-between">
+                        <Label htmlFor={field.name}>Password</Label>
+                        <a
+                          href="#"
+                          className="text-xs text-muted-foreground hover:text-foreground"
+                        >
+                          Forgot password?
+                        </a>
+                      </div>
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        type="password"
+                        autoComplete="current-password"
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                      <FieldError errors={field.state.meta.errors} />
+                    </div>
+                  )}
+                />
+                {authError && (
+                  <p className="rounded-md bg-destructive/10 px-3 py-2 text-xs text-destructive">
+                    {authError}
+                  </p>
+                )}
+                <Button type="submit" className="w-full" disabled={isAuthLoading}>
+                  {isAuthLoading ? (
+                    <IconLoader2 className="size-4 animate-spin" />
+                  ) : (
+                    "Sign in"
+                  )}
+                </Button>
+              </form>
+            </TabsContent>
+
+            <TabsContent value="signup">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  signUpForm.handleSubmit();
+                }}
+                className="flex flex-col gap-4 pt-4"
+              >
+                <signUpForm.Field
+                  name="name"
+                  children={(field) => (
+                    <div className="flex flex-col gap-1.5">
+                      <Label htmlFor={field.name}>Full name</Label>
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        placeholder="John Doe"
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                      <FieldError errors={field.state.meta.errors} />
+                    </div>
+                  )}
+                />
+                <signUpForm.Field
+                  name="email"
+                  children={(field) => (
+                    <div className="flex flex-col gap-1.5">
+                      <Label htmlFor={`${field.name}-signup`}>Email</Label>
+                      <Input
+                        id={`${field.name}-signup`}
+                        name={field.name}
+                        type="email"
+                        placeholder="name@example.com"
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                      <FieldError errors={field.state.meta.errors} />
+                    </div>
+                  )}
+                />
+                <signUpForm.Field
+                  name="password"
+                  children={(field) => (
+                    <div className="flex flex-col gap-1.5">
+                      <Label htmlFor={`${field.name}-signup`}>Password</Label>
+                      <Input
+                        id={`${field.name}-signup`}
+                        name={field.name}
+                        type="password"
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                      <FieldError errors={field.state.meta.errors} />
+                    </div>
+                  )}
+                />
+                {authError && (
+                  <p className="rounded-md bg-destructive/10 px-3 py-2 text-xs text-destructive">
+                    {authError}
+                  </p>
+                )}
+                <Button type="submit" className="w-full" disabled={isAuthLoading}>
+                  {isAuthLoading ? (
+                    <IconLoader2 className="size-4 animate-spin" />
+                  ) : (
+                    "Create account"
+                  )}
+                </Button>
+              </form>
+            </TabsContent>
+          </Tabs>
+
+          <div className="flex flex-col gap-4">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t" />
+              </div>
+              <div className="relative flex justify-center">
+                <span className="bg-card px-2 text-xs text-muted-foreground">
+                  or
+                </span>
+              </div>
+            </div>
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={handleGoogleLogin}
+              disabled={isAuthLoading}
+            >
+              {isAuthLoading ? (
+                <IconLoader2 className="size-4 animate-spin" />
+              ) : (
+                <>
+                  <IconBrandGoogle className="mr-2 size-4" />
+                  Continue with Google
+                </>
+              )}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      <p className="text-center text-xs text-muted-foreground">
+        By continuing, you agree to our{" "}
+        <a href="#" className="underline hover:text-foreground">
+          Terms
+        </a>{" "}
+        and{" "}
+        <a href="#" className="underline hover:text-foreground">
+          Privacy Policy
+        </a>
+        .
+      </p>
+    </div>
   );
 }
