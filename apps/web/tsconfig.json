@@ -6,13 +6,12 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "types": ["vite/client"],
     "paths": {
-      "#/*": ["./src/*"],
       "@/*": ["./src/*"],
       "@stack/ui/components/*": ["../../packages/ui/src/components/*"],
       "@stack/ui/utils": ["../../packages/ui/src/utils.ts"],
-      "@stack/ui/hooks/*": ["../../packages/ui/src/hooks/*"]
+      "@stack/ui/hooks/*": ["../../packages/ui/src/hooks/*"],
     },
     "allowImportingTsExtensions": true,
-    "noUncheckedSideEffectImports": true
-  }
+    "noUncheckedSideEffectImports": true,
+  },
 }

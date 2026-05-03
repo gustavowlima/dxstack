@@ -11,10 +11,10 @@
     "prefix": ""
   },
   "aliases": {
-    "components": "#/components",
+    "components": "@/components",
     "utils": "@stack/ui/utils",
     "ui": "@stack/ui/components",
-    "hooks": "#/hooks"
+    "hooks": "@/hooks"
   },
   "iconLibrary": "@tabler/icons-react"
 }
