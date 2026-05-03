@@ -12,8 +12,9 @@ interface MyRouterContext {
 }
 
 import appCss from "../styles.css?url";
-import { serverApi } from "@/lib/orpc";
 import type { RouterOutputs } from "@stack/api/router";
+import { fetchSession } from "@/features/auth/services/auth.server";
+import { getApi } from "@/lib/orpc";
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
   head: () => ({
@@ -39,8 +40,9 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
   shellComponent: RootDocument,
   notFoundComponent: NotFound,
   beforeLoad: async () => {
-    const session = await serverApi.auth.getSession();
-    return { auth: session };
+    const api = getApi();
+    const auth = await api.auth.getSession();
+    return { auth: auth };
   },
 });
 

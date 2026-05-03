@@ -13,7 +13,6 @@ export type Variables = {
 type HonoEnv = { Variables: Variables }
 
 export const loggerMiddleware = createMiddleware(async (ctx, next) => {
-  console.log("🚀 ctx ~ :", ctx);
   const start = Date.now()
   await next()
   pino.info({
@@ -25,10 +24,10 @@ export const loggerMiddleware = createMiddleware(async (ctx, next) => {
 })
 
 export const apiCors = cors({
-  origin: [env.VITE_WEB_URL],
-  allowHeaders: ["Content-Type", "Authorization"],
+  origin: env.VITE_WEB_URL,
+  allowHeaders: ["Content-Type", "Authorization", "Cookie"],
   allowMethods: ["POST", "GET", "OPTIONS"],
-  exposeHeaders: ["Content-Length"],
+  exposeHeaders: ["Set-Cookie"],
   maxAge: 600,
   credentials: true,
 })

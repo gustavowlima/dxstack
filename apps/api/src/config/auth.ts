@@ -17,17 +17,18 @@ export const auth = betterAuth({
     google: {
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
-      redirectURI: `${env.VITE_API_URL}/api/auth/callback/google`,
     },
   },
   session: {
     expiresIn: 60 * 60 * 24 * 7, // 7 days
     updateAge: 60 * 60 * 24, // renews every 1 day
-    cookieCache: {
-      enabled: true,
-      maxAge: 5 * 60, // cookie valid for 5 minutes
-      strategy: "jwt",
+    cookieOptions: {
+      sameSite: "lax",
+      secure: false,
     },
+  },
+  advanced: {
+    disableCSRFCheck: true,
   },
   trustedOrigins: [env.VITE_WEB_URL],
   onAPIError: {
