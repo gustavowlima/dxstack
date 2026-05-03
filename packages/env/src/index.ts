@@ -14,8 +14,9 @@ export const env = createEnv({
   client: {
     VITE_API_URL: z.string().url().optional(),
   },
-  // In Vite, environment variables are in import.meta.env
-  // In Node/Bun, they are in process.env
-  runtimeEnv: typeof process !== "undefined" ? process.env : (import.meta as any).env,
+  // Use a safer check for runtime env
+  runtimeEnv: typeof process !== "undefined"
+    ? process.env
+    : (import.meta as any).env,
   emptyStringAsUndefined: true,
 });

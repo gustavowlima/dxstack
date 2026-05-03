@@ -27,9 +27,13 @@
     }
   },
   "scripts": {
-    "dev": "bun run --filter './apps/*' dev",
+    "dev": "bun run --filter './apps/*' --elide-lines=0 dev",
     "dev:web": "bun run --cwd apps/web dev",
     "dev:api": "bun run --cwd apps/api dev",
+    "db:generate": "bun run --filter @stack/db db:generate",
+    "db:migrate": "bun run --filter @stack/db db:migrate",
+    "db:push": "bun run --filter @stack/db db:push",
+    "db:studio": "bun run --filter @stack/db db:studio",
     "build": "bun run --filter './apps/*' build",
     "check": "biome check .",
     "format": "biome format --write .",
