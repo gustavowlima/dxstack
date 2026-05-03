@@ -1,11 +1,25 @@
-import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router";
+import {
+  createRootRouteWithContext,
+  HeadContent,
+  Scripts,
+} from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { NotFound } from "../components/not-found";
 
-import appCss from "../styles.css?url";
+interface AuthState {
+  isAuthenticated: boolean;
+  user: { id: string; username: string; email: string } | null;
+}
 
-export const Route = createRootRoute({
+interface MyRouterContext {
+  auth: AuthState;
+}
+
+import appCss from "../styles.css?url";
+import { getSession } from "better-auth/api";
+
+export const Route = createRootRouteWithContext<MyRouterContext>()({
   head: () => ({
     meta: [
       {
@@ -28,6 +42,10 @@ export const Route = createRootRoute({
   }),
   shellComponent: RootDocument,
   notFoundComponent: NotFound,
+  beforeLoad: async () => {
+    const session = getSession()
+    return { session };
+  },
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
