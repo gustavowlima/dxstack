@@ -11,11 +11,8 @@ export const env = createEnv({
     GOOGLE_CLIENT_SECRET: z.string().min(1),
     PORT: z.string().optional().transform((v) => (v ? parseInt(v) : 3001)),
     LOG_LEVEL: z.enum(["fatal", "error", "warn", "info", "debug", "trace"]).default("info"),
+  },
   runtimeEnv: process.env,
   emptyStringAsUndefined: true,
-  // Skip validation if requested (useful for CLI tools/schema generation)
-  skipValidation: !!process.env.SKIP_ENV_VALIDATION,
-  });
-
   skipValidation: process.env.SKIP_ENV_VALIDATION === "true"
 });
