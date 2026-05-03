@@ -16,32 +16,27 @@ import {
   TabsList,
   TabsTrigger,
 } from "@stack/ui/components/tabs";
-import {
-  IconBrandGoogle,
-  IconLoader2,
-  IconShieldLock,
-} from "@tabler/icons-react";
+import { IconBrandGoogle, IconLoader2 } from "@tabler/icons-react";
+import { useNavigate } from "@tanstack/react-router";
 import { useAuth } from "../hooks/use-auth";
 import { loginSchema, signUpSchema } from "../schemas/auth";
 
 function FieldError({ errors }: { errors: unknown[] | undefined }) {
   if (!errors?.length) return null;
   const messages = errors.map((e) =>
-    typeof e === "string" ? e : (e as { message: string }).message
+    typeof e === "string" ? e : (e as { message: string }).message,
   );
   return <p className="text-xs text-destructive">{messages.join(", ")}</p>;
 }
 
 export function LoginForm() {
+  const navigate = useNavigate();
   const {
-    session,
-    isSessionLoading,
     isLoading: isAuthLoading,
     error: authError,
     handleGoogleLogin,
     loginWithEmail,
     signUpWithEmail,
-    logout,
   } = useAuth();
 
   const signInForm = useForm({
@@ -49,6 +44,7 @@ export function LoginForm() {
     validators: { onChange: loginSchema },
     onSubmit: async ({ value }) => {
       await loginWithEmail(value.email, value.password);
+      navigate({ to: "/" });
     },
   });
 
@@ -57,61 +53,14 @@ export function LoginForm() {
     validators: { onChange: signUpSchema },
     onSubmit: async ({ value }) => {
       await signUpWithEmail(value.email, value.password, value.name);
+      navigate({ to: "/" });
     },
   });
 
-  if (isSessionLoading) {
-    return (
-      <div className="flex h-full w-full items-center justify-center">
-        <IconLoader2 className="animate-spin text-muted-foreground" />
-      </div>
-    );
-  }
-
-  if (session) {
-    return (
-      <Card className="w-full max-w-sm">
-        <CardHeader className="items-center text-center">
-          <div className="mb-2 flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary">
-            <IconShieldLock className="size-6" />
-          </div>
-          <CardTitle>Welcome back</CardTitle>
-          <CardDescription>
-            Signed in as{" "}
-            <span className="font-medium text-foreground">
-              {session.user.name}
-            </span>
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center gap-3 rounded-lg border bg-muted/40 p-3">
-            <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-background font-semibold text-primary shadow-sm">
-              {session.user.name?.[0]?.toUpperCase()}
-            </div>
-            <div className="min-w-0">
-              <p className="truncate text-sm font-medium">{session.user.name}</p>
-              <p className="truncate text-xs text-muted-foreground">
-                {session.user.email}
-              </p>
-            </div>
-          </div>
-        </CardContent>
-        <CardFooter>
-          <Button
-            variant="outline"
-            className="w-full"
-            onClick={logout}
-            disabled={isAuthLoading}
-          >
-            {isAuthLoading && (
-              <IconLoader2 className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            Sign out
-          </Button>
-        </CardFooter>
-      </Card>
-    );
-  }
+  const onGoogleLogin = async () => {
+    await handleGoogleLogin();
+    navigate({ to: "/" });
+  };
 
   return (
     <div className="w-full max-w-sm space-y-6">
@@ -126,8 +75,12 @@ export function LoginForm() {
         <CardContent className="flex flex-col gap-6 p-6">
           <Tabs defaultValue="signin" className="flex-col">
             <TabsList className="flex w-full">
-              <TabsTrigger value="signin" className="flex-1">Sign in</TabsTrigger>
-              <TabsTrigger value="signup" className="flex-1">Sign up</TabsTrigger>
+              <TabsTrigger value="signin" className="flex-1">
+                Sign in
+              </TabsTrigger>
+              <TabsTrigger value="signup" className="flex-1">
+                Sign up
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="signin">
@@ -189,7 +142,11 @@ export function LoginForm() {
                     {authError}
                   </p>
                 )}
-                <Button type="submit" className="w-full" disabled={isAuthLoading}>
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={isAuthLoading}
+                >
                   {isAuthLoading ? (
                     <IconLoader2 className="size-4 animate-spin" />
                   ) : (
@@ -265,7 +222,11 @@ export function LoginForm() {
                     {authError}
                   </p>
                 )}
-                <Button type="submit" className="w-full" disabled={isAuthLoading}>
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={isAuthLoading}
+                >
                   {isAuthLoading ? (
                     <IconLoader2 className="size-4 animate-spin" />
                   ) : (
@@ -290,7 +251,7 @@ export function LoginForm() {
             <Button
               variant="outline"
               className="w-full"
-              onClick={handleGoogleLogin}
+              onClick={onGoogleLogin}
               disabled={isAuthLoading}
             >
               {isAuthLoading ? (

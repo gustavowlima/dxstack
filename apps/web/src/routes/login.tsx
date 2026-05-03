@@ -1,21 +1,21 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { UserCard } from "../features/auth/components/user-card";
+import { LoginForm } from "../features/auth/components/login-form";
 import { authClient } from "@/lib/auth-client";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/login")({
   beforeLoad: async () => {
     const { data: session } = await authClient.getSession();
-    if (!session) {
-      throw redirect({ to: "/login" });
+    if (session) {
+      throw redirect({ to: "/" });
     }
   },
-  component: Home,
+  component: Login,
 });
 
-function Home() {
+function Login() {
   return (
     <div className="flex min-h-screen w-full items-center justify-center bg-muted/40 p-4">
-      <UserCard />
+      <LoginForm />
     </div>
   );
 }
