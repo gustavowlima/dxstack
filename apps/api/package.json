@@ -2,9 +2,13 @@
   "name": "@stack/api",
   "private": true,
   "type": "module",
+  "exports": {
+    "./router": "./src/router/index.ts"
+  },
   "scripts": {
-    "dev": "bun --env-file=../../.env run --watch src/index.ts",
-    "start": "bun --env-file=../../.env run src/index.ts",
+    "with-env": "dotenv -e ../../.env -- bun",
+    "dev": "bun run with-env --watch src/index.ts",
+    "start": "bun run with-env src/index.ts",
     "build": "bun build src/index.ts --outdir dist --target bun",
     "typecheck": "tsc --noEmit",
     "check": "biome check ."
@@ -12,6 +16,7 @@
   "dependencies": {
     "@orpc/server": "catalog:api",
     "@orpc/zod": "catalog:api",
+    "better-auth": "catalog:",
     "@stack/auth": "workspace:*",
     "@stack/db": "workspace:*",
     "@stack/env": "workspace:*",
@@ -22,9 +27,10 @@
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
-    "@types/bun": "latest",
+    "@types/bun": "1.3.13",
     "@types/node": "catalog:",
     "typescript": "catalog:",
-    "ultracite": "catalog:"
+    "ultracite": "catalog:",
+    "dotenv": "catalog:"
   }
 }

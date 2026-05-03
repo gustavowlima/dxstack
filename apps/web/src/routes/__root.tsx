@@ -7,17 +7,13 @@ import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { NotFound } from "../components/not-found";
 
-interface AuthState {
-  isAuthenticated: boolean;
-  user: { id: string; username: string; email: string } | null;
-}
-
 interface MyRouterContext {
-  auth: AuthState;
+  auth: RouterOutputs["auth"]["getSession"];
 }
 
 import appCss from "../styles.css?url";
-import { getSession } from "better-auth/api";
+import { serverApi } from "@/lib/orpc";
+import type { RouterOutputs } from "@stack/api/router";
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
   head: () => ({
@@ -43,8 +39,8 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
   shellComponent: RootDocument,
   notFoundComponent: NotFound,
   beforeLoad: async () => {
-    const session = getSession()
-    return { session };
+    const session = await serverApi.auth.getSession();
+    return { auth: session };
   },
 });
 

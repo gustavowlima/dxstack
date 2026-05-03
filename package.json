@@ -9,14 +9,16 @@
     "@biomejs/biome": "2.4.5",
     "@types/node": "^22.10.2",
     "typescript": "^6.0.2",
-    "ultracite": "latest",
-    "zod": "^4.3.6"
+    "ultracite": "7.6.2",
+    "zod": "^4.3.6",
+    "dotenv": "17.4.2",
+    "better-auth": "1.6.9"
   },
   "catalogs": {
     "api": {
-      "@orpc/client": "latest",
-      "@orpc/server": "latest",
-      "@orpc/zod": "latest",
+      "@orpc/client": "1.14.0",
+      "@orpc/server": "1.14.0",
+      "@orpc/zod": "1.14.0",
       "hono": "^4.0.0"
     },
     "testing": {

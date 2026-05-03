@@ -4,8 +4,7 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./contracts": "./src/contracts/index.ts",
-    "./schemas": "./src/schemas/index.ts",
+"./schemas": "./src/schemas/index.ts",
     "./types": "./src/types/index.ts",
     "./utils": "./src/utils/index.ts"
   },
@@ -13,8 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "zod": "catalog:",
-    "@orpc/contract": "latest"
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",

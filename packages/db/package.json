@@ -15,8 +15,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "drizzle-orm": "latest",
-    "postgres": "latest"
+    "drizzle-orm": "0.45.2",
+    "postgres": "3.4.9"
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",

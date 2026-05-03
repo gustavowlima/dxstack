@@ -14,7 +14,7 @@ export function useAuth() {
     try {
       const result = await authClient.signIn.social({
         provider: "google",
-        callbackURL: env.VITE_WEB_URL,
+        callbackURL: `${env.VITE_WEB_URL}/home`,
       });
       return result;
     } catch (err: any) {

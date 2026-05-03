@@ -1,13 +1,6 @@
 import { useForm } from "@tanstack/react-form";
 import { Button } from "@stack/ui/components/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@stack/ui/components/card";
+import { Card, CardContent } from "@stack/ui/components/card";
 import { Input } from "@stack/ui/components/input";
 import { Label } from "@stack/ui/components/label";
 import {
@@ -59,7 +52,6 @@ export function LoginForm() {
 
   const onGoogleLogin = async () => {
     await handleGoogleLogin();
-    navigate({ to: "/" });
   };
 
   return (

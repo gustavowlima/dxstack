@@ -1,36 +1,51 @@
+import type { BetterAuthOptions, BetterAuthPlugin } from "better-auth";
 import { betterAuth } from "better-auth";
-import { drizzleAdapter } from "@better-auth/drizzle-adapter";
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { oAuthProxy } from "better-auth/plugins";
 import { createClient } from "@stack/db";
-import * as schema from "@stack/db/schema";
 import { env } from "@stack/env";
 
-// We create the DB client using the server-side env
 const db = createClient(env.DATABASE_URL);
 
-export const auth = betterAuth({
-  database: drizzleAdapter(db, {
-    provider: "pg",
-    schema: {
-      user: schema.user,
-      session: schema.session,
-      account: schema.account,
-      verification: schema.verification,
+export function initAuth<
+  TExtraPlugins extends BetterAuthPlugin[] = [],
+>(options: {
+  baseUrl: string;
+  webURL: string;
+  secret: string | undefined;
+  extraPlugins?: TExtraPlugins;
+  googleClientId: string;
+  googleClientSecret: string;
+}) {
+  const config = {
+    database: drizzleAdapter(db, {
+      provider: "pg",
+    }),
+    baseURL: options.baseUrl,
+    secret: options.secret,
+    plugins: [
+      oAuthProxy({
+        productionURL: options.webURL,
+      }),
+      ...(options.extraPlugins ?? []),
+    ],
+    socialProviders: {
+      google: {
+        clientId: options.googleClientId,
+        clientSecret: options.googleClientSecret,
+        redirectURI: `${options.baseUrl}/api/auth/callback/google`,
+      },
     },
-  }),
-  emailAndPassword: {
-    enabled: true,
-  },
-  socialProviders: {
-    google: {
-      clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET,
+    trustedOrigins: [options.webURL],
+    onAPIError: {
+      onError(error, ctx) {
+        console.error("BETTER AUTH API ERROR", error, ctx);
+      },
     },
-  },
-  // Use VITE_API_URL as the base (server's own URL)
-  baseURL: env.VITE_API_URL,
-  // Use VITE_WEB_URL for trusted origins (the frontend)
-  trustedOrigins: [env.VITE_WEB_URL],
-  secret: env.BETTER_AUTH_SECRET,
-});
+  } satisfies BetterAuthOptions;
 
-export type Auth = typeof auth;
+  return betterAuth(config);
+}
+
+export type Auth = ReturnType<typeof initAuth>;
+export type Session = Auth["$Infer"]["Session"];

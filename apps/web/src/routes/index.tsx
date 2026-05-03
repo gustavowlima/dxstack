@@ -1,21 +1,11 @@
+// routes/index.tsx
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { UserCard } from "../features/auth/components/user-card";
-import { authClient } from "@/lib/auth-client";
 
 export const Route = createFileRoute("/")({
-  beforeLoad: async () => {
-    const { data: session } = await authClient.getSession();
-    if (!session) {
-      throw redirect({ to: "/login" });
+  beforeLoad: ({ context }) => {
+    if (context.auth) {
+      throw redirect({ to: "/home" });
     }
+    throw redirect({ to: "/login" });
   },
-  component: Home,
 });
-
-function Home() {
-  return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-muted/40 p-4">
-      <UserCard />
-    </div>
-  );
-}
