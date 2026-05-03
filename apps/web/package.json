@@ -6,7 +6,7 @@
     "#/*": "./src/*"
   },
   "scripts": {
-    "dev": "vite dev --port 3000",
+    "dev": "bun --env-file=../../.env vite dev --port 3000",
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run",
@@ -16,7 +16,6 @@
     "check": "biome check"
   },
   "dependencies": {
-    "@stack/env": "workspace:*",
     "@stack/shared": "workspace:*",
     "@stack/ui": "workspace:*",
     "@tabler/icons-react": "^3.41.1",

@@ -25,6 +25,9 @@ export const auth = betterAuth({
       clientSecret: env.GOOGLE_CLIENT_SECRET,
     },
   },
+  // Use VITE_API_URL as the base (server's own URL)
+  baseURL: env.VITE_API_URL,
+  // Use VITE_WEB_URL for trusted origins (the frontend)
+  trustedOrigins: [env.VITE_WEB_URL],
   secret: env.BETTER_AUTH_SECRET,
-  baseURL: env.BETTER_AUTH_URL,
 });
