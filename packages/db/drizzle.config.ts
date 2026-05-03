@@ -10,6 +10,7 @@ if (!process.env.DATABASE_URL) {
 
 export default defineConfig({
   schema: "./src/schema/index.ts",
+  casing: "snake_case",
   out: "./drizzle",
   dialect: "postgresql",
   dbCredentials: {

@@ -16,6 +16,7 @@
     "check": "biome check"
   },
   "dependencies": {
+    "@stack/auth": "workspace:*",
     "@stack/shared": "workspace:*",
     "@stack/ui": "workspace:*",
     "@tabler/icons-react": "^3.41.1",

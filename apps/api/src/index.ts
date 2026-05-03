@@ -1,7 +1,7 @@
 import { RPCHandler } from "@orpc/server/fetch"
 import { Hono } from "hono"
 import { cors } from "hono/cors"
-import { auth } from "./lib/auth"
+import { auth } from "@stack/auth"
 import { appRouter } from "./router"
 import { logger as pino } from "@stack/logger"
 

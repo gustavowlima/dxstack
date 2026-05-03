@@ -4,16 +4,17 @@ import { createClient } from "@stack/db";
 import * as schema from "@stack/db/schema";
 import { env } from "@stack/env";
 
+// We create the DB client using the server-side env
 const db = createClient(env.DATABASE_URL);
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg",
     schema: {
-      user: schema.users,
-      session: schema.sessions,
-      account: schema.accounts,
-      verification: schema.verifications,
+      user: schema.user,
+      session: schema.session,
+      account: schema.account,
+      verification: schema.verification,
     },
   }),
   emailAndPassword: {
@@ -31,3 +32,5 @@ export const auth = betterAuth({
   trustedOrigins: [env.VITE_WEB_URL],
   secret: env.BETTER_AUTH_SECRET,
 });
+
+export type Auth = typeof auth;

@@ -1,10 +1,10 @@
 import { implement } from "@orpc/server"
 import { router } from "@stack/shared/contracts"
-import type { auth } from "../lib/auth"
+import type { Auth } from "@stack/auth"
 
 type Context = {
-  user: typeof auth.$Infer.Session.user | null
-  session: typeof auth.$Infer.Session.session | null
+  user: Auth["$Infer"]["Session"]["user"] | null
+  session: Auth["$Infer"]["Session"]["session"] | null
 }
 
 const i = implement(router).$context<Context>()

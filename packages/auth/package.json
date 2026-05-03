@@ -1,0 +1,25 @@
+{
+  "name": "@stack/auth",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./client": "./src/client.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@better-auth/drizzle-adapter": "^1.6.9",
+    "@stack/db": "workspace:*",
+    "@stack/env": "workspace:*",
+    "better-auth": "^1.6.9"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14"
+  }
+}
