@@ -15,6 +15,7 @@
     "@orpc/zod": "catalog:api",
     "@stack/db": "workspace:*",
     "@stack/env": "workspace:*",
+    "@stack/logger": "workspace:*",
     "@stack/shared": "workspace:*",
     "better-auth": "^1.6.9",
     "hono": "catalog:api",

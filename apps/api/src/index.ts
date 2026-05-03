@@ -1,9 +1,9 @@
 import { RPCHandler } from "@orpc/server/fetch"
 import { Hono } from "hono"
 import { cors } from "hono/cors"
-import { logger } from "hono/logger"
 import { auth } from "./lib/auth"
 import { appRouter } from "./router"
+import { logger as pino } from "@stack/logger"
 
 type Variables = {
   user: typeof auth.$Infer.Session.user | null
@@ -12,7 +12,18 @@ type Variables = {
 
 const app = new Hono<{ Variables: Variables }>()
 
-app.use("*", logger())
+// Pino logger middleware for Hono
+app.use("*", async (c, next) => {
+  const start = Date.now()
+  await next()
+  const duration = Date.now() - start
+  pino.info({
+    method: c.req.method,
+    path: c.req.path,
+    status: c.res.status,
+    duration: `${duration}ms`,
+  })
+})
 
 // Better Auth requires specific CORS configuration
 app.use(
