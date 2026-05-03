@@ -16,7 +16,6 @@
   "dependencies": {
     "@orpc/client": "1.14.0",
     "@orpc/tanstack-query": "1.14.0",
-    "@stack/auth": "workspace:*",
     "@stack/shared": "workspace:*",
     "@stack/ui": "workspace:*",
     "@tabler/icons-react": "^3.41.1",

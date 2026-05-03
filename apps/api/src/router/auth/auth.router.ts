@@ -1,6 +1,6 @@
 
 import { procedure } from "../../config/orpc"
-import { auth } from "@/config/auth"
+import { auth } from "../../config/auth"
 
 
 const getSession = procedure.public.handler(async ({ context }) => {

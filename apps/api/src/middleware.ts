@@ -13,6 +13,7 @@ export type Variables = {
 type HonoEnv = { Variables: Variables }
 
 export const loggerMiddleware = createMiddleware(async (ctx, next) => {
+  console.log("🚀 ctx ~ :", ctx);
   const start = Date.now()
   await next()
   pino.info({

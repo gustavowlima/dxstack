@@ -1,6 +1,6 @@
 import { os } from "@orpc/server"
 import { ORPCError } from "@orpc/server"
-import type { Auth } from "@stack/auth"
+import type { Auth } from "./auth"
 
 export type Context = {
   user: Auth["$Infer"]["Session"]["user"] | null

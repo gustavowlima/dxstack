@@ -13,9 +13,9 @@
     "apps/api": {
       "name": "@stack/api",
       "dependencies": {
+        "@better-auth/drizzle-adapter": "1.6.9",
         "@orpc/server": "catalog:api",
         "@orpc/zod": "catalog:api",
-        "@stack/auth": "workspace:*",
         "@stack/db": "workspace:*",
         "@stack/env": "workspace:*",
         "@stack/logger": "workspace:*",
@@ -38,7 +38,6 @@
       "dependencies": {
         "@orpc/client": "1.14.0",
         "@orpc/tanstack-query": "1.14.0",
-        "@stack/auth": "workspace:*",
         "@stack/shared": "workspace:*",
         "@stack/ui": "workspace:*",
         "@tabler/icons-react": "^3.41.1",
@@ -52,7 +51,7 @@
         "@tanstack/react-start": "1.167.61",
         "@tanstack/router-plugin": "^1.132.0",
         "@tanstack/zod-form-adapter": "^0.42.1",
-        "better-auth": "^1.6.9",
+        "better-auth": "catalog:",
         "lucide-react": "^0.545.0",
         "react": "^19.2.0",
         "react-dom": "^19.2.0",
@@ -76,22 +75,6 @@
         "ultracite": "catalog:",
         "vite": "^8.0.0",
         "vitest": "catalog:testing",
-      },
-    },
-    "packages/auth": {
-      "name": "@stack/auth",
-      "version": "0.0.0",
-      "dependencies": {
-        "@better-auth/drizzle-adapter": "1.6.9",
-        "@stack/db": "workspace:*",
-        "@stack/env": "workspace:*",
-        "better-auth": "catalog:",
-      },
-      "devDependencies": {
-        "@types/react": "^19.2.14",
-      },
-      "peerDependencies": {
-        "react": "^19.0.0",
       },
     },
     "packages/db": {
@@ -483,8 +466,6 @@
     "@solid-primitives/utils": ["@solid-primitives/utils@6.4.0", "", { "peerDependencies": { "solid-js": "^1.6.12" } }, "sha512-AeGTBg8Wtkh/0s+evyLtP8piQoS4wyqqQaAFs2HJcFMMjYAtUgo+ZPduRXLjPlqKVc2ejeR544oeqpbn8Egn8A=="],
 
     "@stack/api": ["@stack/api@workspace:apps/api"],
-
-    "@stack/auth": ["@stack/auth@workspace:packages/auth"],
 
     "@stack/db": ["@stack/db@workspace:packages/db"],
 
