@@ -29,7 +29,6 @@ jobs:
       - name: Publish to npm
         run: |
           npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
-          npm publish --access public
-        working-directory: packages/cli
+          npm publish -w dxstack --access public
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
