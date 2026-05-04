@@ -30,7 +30,7 @@ async function main() {
     message: 'Which ORM do you want to use?',
     options: [
       { value: 'drizzle', label: 'Drizzle (Recommended)', hint: 'Lightweight, TypeScript-first' },
-      { value: 'prisma', label: 'Prisma v7', hint: 'Wasm-based, ultra-fast, modern architecture' },
+      { value: 'prisma', label: 'Prisma', hint: 'Wasm-based, ultra-fast, modern architecture' },
     ],
   });
 
@@ -59,7 +59,7 @@ async function main() {
 
     // 2. Handle ORM selection
     if (orm === 'prisma') {
-      s.message('Configuring Prisma v7...');
+      s.message('Configuring Prisma...');
       const prismaTemplatePath = path.join(templatePath, 'extras/prisma');
       const dbPackagePath = path.join(targetPath, 'packages/db');
 
