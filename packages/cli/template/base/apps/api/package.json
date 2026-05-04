@@ -16,7 +16,6 @@
   "dependencies": {
     "@orpc/server": "catalog:api",
     "@orpc/zod": "catalog:api",
-    "@better-auth/drizzle-adapter": "1.6.9",
     "better-auth": "catalog:",
     "@stack/db": "workspace:*",
     "@stack/env": "workspace:*",

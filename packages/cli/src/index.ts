@@ -58,26 +58,28 @@ async function main() {
     await fs.copy(baseTemplatePath, targetPath);
 
     // 2. Handle ORM selection
-    if (orm === 'prisma') {
-      s.message('Configuring Prisma...');
-      const prismaTemplatePath = path.join(templatePath, 'extras/prisma');
-      const dbPackagePath = path.join(targetPath, 'packages/db');
+    const ormTemplatePath = path.join(templatePath, `extras/${orm}`);
+    const dbPackagePath = path.join(targetPath, 'packages/db');
+    
+    s.message(`Configuring ${orm === 'drizzle' ? 'Drizzle' : 'Prisma'}...`);
+    await fs.remove(dbPackagePath);
+    await fs.copy(ormTemplatePath, dbPackagePath);
 
-      await fs.remove(dbPackagePath);
-      await fs.copy(prismaTemplatePath, dbPackagePath);
+    // Update apps/api/package.json with the correct adapter
+    const apiPackagePath = path.join(targetPath, 'apps/api/package.json');
+    if (await fs.pathExists(apiPackagePath)) {
+      let content = await fs.readFile(apiPackagePath, 'utf-8');
+      const adapterPkg = orm === 'drizzle' ? '@better-auth/drizzle-adapter' : '@better-auth/prisma-adapter';
+      content = content.replace('"better-auth": "catalog:",', `"${adapterPkg}": "catalog:",\n    "better-auth": "catalog:",`);
+      await fs.writeFile(apiPackagePath, content);
+    }
 
-      // Update apps/api/package.json
-      const apiPackagePath = path.join(targetPath, 'apps/api/package.json');
-      if (await fs.pathExists(apiPackagePath)) {
-        let content = await fs.readFile(apiPackagePath, 'utf-8');
-        content = content.replace('@better-auth/drizzle-adapter', '@better-auth/prisma-adapter');
-        await fs.writeFile(apiPackagePath, content);
-      }
-
-      // Update apps/api/src/config/auth.ts
-      const authConfigPath = path.join(targetPath, 'apps/api/src/config/auth.ts');
-      if (await fs.pathExists(authConfigPath)) {
-        let content = await fs.readFile(authConfigPath, 'utf-8');
+    // Update apps/api/src/config/auth.ts
+    const authConfigPath = path.join(targetPath, 'apps/api/src/config/auth.ts');
+    if (await fs.pathExists(authConfigPath)) {
+      let content = await fs.readFile(authConfigPath, 'utf-8');
+      
+      if (orm === 'prisma') {
         content = content.replace(
           'import { drizzleAdapter } from "better-auth/adapters/drizzle";',
           'import { prismaAdapter } from "better-auth/adapters/prisma";'
@@ -88,8 +90,12 @@ async function main() {
         );
         await fs.writeFile(authConfigPath, content);
       }
+      // Drizzle is already the default in the template auth.ts, so no change needed there
+      // but we could make it explicit if we wanted to.
+    }
 
-      // Update root package.json auth:generate script
+    // Update root package.json auth:generate script
+    if (orm === 'prisma') {
       const rootPackagePath = path.join(targetPath, 'package.json');
       if (await fs.pathExists(rootPackagePath)) {
         let content = await fs.readFile(rootPackagePath, 'utf-8');

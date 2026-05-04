@@ -13,6 +13,8 @@
     "zod": "^4.4.2",
     "dotenv": "17.4.2",
     "better-auth": "1.6.9",
+    "@better-auth/drizzle-adapter": "1.6.9",
+    "@better-auth/prisma-adapter": "1.6.9",
     "react": "19.2.5",
     "react-dom": "19.2.5"
   },
