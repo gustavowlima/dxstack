@@ -1,0 +1,30 @@
+{
+  "name": "dxstack",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "bin": {
+    "dxstack": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "bun run src/index.ts",
+    "test:gen": "mkdir -p ../../.sandbox && cd ../../.sandbox && bun run ../packages/cli/src/index.ts",
+    "build": "bun build src/index.ts --outdir dist --target node",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.9.1",
+    "commander": "^13.1.0",
+    "giget": "^1.2.4",
+    "kleur": "^4.1.5",
+    "fs-extra": "^11.3.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^22.10.1",
+    "typescript": "^5.7.2"
+  }
+}

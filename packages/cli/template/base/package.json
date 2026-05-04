@@ -1,0 +1,52 @@
+{
+  "name": "stack",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "catalog": {
+    "@biomejs/biome": "2.4.13",
+    "@types/node": "^22.10.2",
+    "typescript": "^6.0.3",
+    "ultracite": "7.6.2",
+    "zod": "^4.4.2",
+    "dotenv": "17.4.2",
+    "better-auth": "1.6.9",
+    "react": "19.2.5",
+    "react-dom": "19.2.5"
+  },
+  "catalogs": {
+    "api": {
+      "@orpc/client": "1.14.0",
+      "@orpc/server": "1.14.0",
+      "@orpc/zod": "1.14.0",
+      "hono": "^4.12.15"
+    },
+    "testing": {
+      "@testing-library/dom": "^10.4.1",
+      "@testing-library/react": "^16.3.0",
+      "jsdom": "^28.1.0",
+      "vitest": "^4.1.5"
+    }
+  },
+  "scripts": {
+    "dev": "bun run --filter './apps/*' --elide-lines=0 dev",
+    "dev:web": "bun run --cwd apps/web dev",
+    "dev:api": "bun run --cwd apps/api dev",
+    "db:generate": "bun --env-file=.env run --filter @stack/db db:generate",
+    "db:migrate": "bun --env-file=.env run --filter @stack/db db:migrate",
+    "db:push": "bun --env-file=.env run --filter @stack/db db:push",
+    "db:studio": "bun --env-file=.env run --filter @stack/db db:studio",
+    "auth:generate": "bun x auth generate --config ./apps/api/src/config/auth.ts --output ./packages/db/src/schema/auth-schema.ts",
+    "build": "bun run --filter './apps/*' build",
+    "check": "biome check .",
+    "format": "biome format --write .",
+    "typecheck": "bun run --filter '*' typecheck"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "catalog:",
+    "typescript": "catalog:",
+    "ultracite": "catalog:"
+  }
+}
