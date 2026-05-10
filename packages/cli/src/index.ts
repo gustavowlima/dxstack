@@ -10,10 +10,12 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Attempt to force UTF-8 encoding on non-Windows systems
-if (process.platform !== 'win32' && !process.env.LANG?.toLowerCase().includes('utf-8')) {
-  process.env.LANG = 'en_US.UTF-8';
-}
+// Check for Unicode support
+const isUnicodeSupported = () => {
+  if (process.platform === 'win32') return true; // Windows Terminal/modern shells support it
+  if (process.env.TERM === 'dumb') return false;
+  return Boolean(process.env.LANG?.toLowerCase().includes('utf-8') || process.env.LC_ALL?.toLowerCase().includes('utf-8'));
+};
 
 const program = new Command();
 
