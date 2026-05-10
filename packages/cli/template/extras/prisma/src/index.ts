@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "./generated/prisma/client";
+import { PrismaClient } from "../generated/client";
 
 if (!process.env.DATABASE_URL) {
 	throw new Error("Missing DATABASE_URL");
@@ -20,6 +20,6 @@ const globalForPrisma = globalThis as unknown as {
 
 export const prisma = globalForPrisma.prisma ?? createPrismaClient();
 
-export * from "./generated/prisma/client";
+export * from "../generated/client";
 
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;

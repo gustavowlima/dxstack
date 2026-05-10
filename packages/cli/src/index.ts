@@ -106,6 +106,10 @@ async function main() {
           'import { prismaAdapter } from "better-auth/adapters/prisma";'
         );
         content = content.replace(
+          'import { db } from "@stack/db";',
+          'import { prisma as db } from "@stack/db";'
+        );
+        content = content.replace(
           /database: drizzleAdapter\(db, \{[\s\S]*?provider: "pg",[\s\S]*?\}\),/,
           'database: prismaAdapter(db, { provider: "postgresql" }),'
         );
