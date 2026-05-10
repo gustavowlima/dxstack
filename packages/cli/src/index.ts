@@ -169,7 +169,7 @@ async function main() {
 program
   .name('dxstack')
   .description('Robust boilerplate generator for fullstack monorepos')
-  .version('0.1.0')
+  .version('0.1.1')
   .action(main);
 
 program.parse();
