@@ -10,6 +10,11 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Attempt to force UTF-8 encoding on non-Windows systems
+if (process.platform !== 'win32' && !process.env.LANG?.toLowerCase().includes('utf-8')) {
+  process.env.LANG = 'en_US.UTF-8';
+}
+
 const program = new Command();
 
 async function main() {
@@ -46,12 +51,19 @@ async function main() {
   const s = spinner();
   const targetPath = path.resolve(process.cwd(), projectName as string);
 
+  const templatePath = path.resolve(__dirname, '../template');
+  const baseTemplatePath = path.join(templatePath, 'base');
+
+  if (!fs.existsSync(baseTemplatePath)) {
+    s.stop('Failed to locate templates');
+    console.error(kleur.red(`\nError: Template directory not found at ${baseTemplatePath}`));
+    console.error(kleur.yellow('If you installed this via npm/bunx, the package might be corrupted.\n'));
+    return outro('Operation failed');
+  }
+
   s.start(`Creating project ${projectName}...`);
 
   try {
-    const templatePath = path.resolve(__dirname, '../template');
-    const baseTemplatePath = path.join(templatePath, 'base');
-
     // 1. Copy base template
     s.message('Scaffolding monorepo structure...');
     await fs.ensureDir(targetPath);
@@ -59,8 +71,13 @@ async function main() {
 
     // 2. Handle ORM selection
     const ormTemplatePath = path.join(templatePath, `extras/${orm}`);
+
+    if (!fs.existsSync(ormTemplatePath)) {
+      throw new Error(`ORM template not found: ${ormTemplatePath}`);
+    }
+
     const dbPackagePath = path.join(targetPath, 'packages/db');
-    
+
     s.message(`Configuring ${orm === 'drizzle' ? 'Drizzle' : 'Prisma'}...`);
     await fs.remove(dbPackagePath);
     await fs.copy(ormTemplatePath, dbPackagePath);
@@ -70,7 +87,11 @@ async function main() {
     if (await fs.pathExists(apiPackagePath)) {
       let content = await fs.readFile(apiPackagePath, 'utf-8');
       const adapterPkg = orm === 'drizzle' ? '@better-auth/drizzle-adapter' : '@better-auth/prisma-adapter';
-      content = content.replace('"better-auth": "catalog:",', `"${adapterPkg}": "catalog:",\n    "better-auth": "catalog:",`);
+      // Match "better-auth": "catalog:", with its indentation and prepend the adapter
+      content = content.replace(
+        /^(\s+)"better-auth": "catalog:",/m,
+        `$1"${adapterPkg}": "catalog:",\n$1"better-auth": "catalog:",`
+      );
       await fs.writeFile(apiPackagePath, content);
     }
 
@@ -78,7 +99,7 @@ async function main() {
     const authConfigPath = path.join(targetPath, 'apps/api/src/config/auth.ts');
     if (await fs.pathExists(authConfigPath)) {
       let content = await fs.readFile(authConfigPath, 'utf-8');
-      
+
       if (orm === 'prisma') {
         content = content.replace(
           'import { drizzleAdapter } from "better-auth/adapters/drizzle";',

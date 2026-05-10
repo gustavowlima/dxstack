@@ -7,7 +7,8 @@
     "dxstack": "./dist/index.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "template"
   ],
   "scripts": {
     "dev": "bun run src/index.ts",
