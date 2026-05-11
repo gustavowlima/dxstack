@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "dev": "bun run src/index.ts",
-    "sandbox": "bun run build && rm -rf ../../.sandbox && mkdir -p ../../.sandbox && cd ../../.sandbox && node ../packages/cli/dist/index.js",
+    "sandbox": "bun run build && rm -rf ../../.sandbox && mkdir -p ../../.sandbox && cd ../../.sandbox && bun ../packages/cli/dist/index.js",
     "sandbox:dev": "rm -rf ../../.sandbox && mkdir -p ../../.sandbox && cd ../../.sandbox && bun run ../packages/cli/src/index.ts",
     "test:gen": "mkdir -p ../../.sandbox && cd ../../.sandbox && bun run ../packages/cli/src/index.ts",
     "build": "bun build src/index.ts --outdir dist --target bun",
