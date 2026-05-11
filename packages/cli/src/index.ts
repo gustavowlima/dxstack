@@ -10,13 +10,6 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Check for Unicode support
-const isUnicodeSupported = () => {
-  if (process.platform === 'win32') return true; // Windows Terminal/modern shells support it
-  if (process.env.TERM === 'dumb') return false;
-  return Boolean(process.env.LANG?.toLowerCase().includes('utf-8') || process.env.LC_ALL?.toLowerCase().includes('utf-8'));
-};
-
 const program = new Command();
 
 async function main() {
@@ -36,7 +29,7 @@ async function main() {
   const orm = await select({
     message: 'Which ORM do you want to use?',
     options: [
-      { value: 'drizzle', label: 'Drizzle (Recommended)', hint: 'Lightweight, TypeScript-first' },
+      { value: 'drizzle', label: 'Drizzle', hint: 'Lightweight, TypeScript-first' },
       { value: 'prisma', label: 'Prisma', hint: 'Wasm-based, ultra-fast, modern architecture' },
     ],
   });
@@ -50,14 +43,10 @@ async function main() {
 
   if (typeof includeExpo === 'symbol') return outro('Operation cancelled');
 
-  const includeDocker = await confirm({
-    message: 'Include Docker Compose (PostgreSQL)?',
-    initialValue: true,
-  });
-
-  if (typeof includeDocker === 'symbol') return outro('Operation cancelled');
-
   const s = spinner();
+
+  // Docker Compose is always included
+  const includeDocker = true;
   const targetPath = path.resolve(process.cwd(), projectName as string);
 
   const templatePath = path.resolve(__dirname, '../template');
@@ -77,6 +66,12 @@ async function main() {
     s.message('Scaffolding monorepo structure...');
     await fs.ensureDir(targetPath);
     await fs.copy(baseTemplatePath, targetPath);
+
+    // Remove bun.lock to avoid version conflicts - will be regenerated on bun install
+    const bunLockPath = path.join(targetPath, 'bun.lock');
+    if (await fs.pathExists(bunLockPath)) {
+      await fs.remove(bunLockPath);
+    }
 
     // 2. Handle ORM selection
     const ormTemplatePath = path.join(templatePath, `extras/${orm}`);
@@ -171,12 +166,10 @@ async function main() {
     console.log(kleur.cyan(`  1. cd ${projectName}`));
     console.log(kleur.cyan('  2. bun install'));
     console.log(kleur.cyan('  3. cp .env.example .env'));
-    if (includeDocker) {
-      console.log(kleur.cyan('  4. docker compose up -d ') + kleur.dim('(Start PostgreSQL)'));
-    }
-    console.log(kleur.cyan(includeDocker ? '  5. bun db:generate  ' : '  4. bun db:generate  ') + kleur.dim('(Crucial for Prisma)'));
-    console.log(kleur.cyan(includeDocker ? '  6. bun auth:generate ' : '  5. bun auth:generate ') + kleur.dim('(To sync auth tables)'));
-    console.log(kleur.cyan(includeDocker ? '  7. bun dev' : '  6. bun dev'));
+    console.log(kleur.cyan('  4. docker compose up -d ') + kleur.dim('(Start PostgreSQL)'));
+    console.log(kleur.cyan('  5. bun db:generate  ') + kleur.dim('(Crucial for Prisma)'));
+    console.log(kleur.cyan('  6. bun auth:generate ') + kleur.dim('(To sync auth tables)'));
+    console.log(kleur.cyan('  7. bun dev'));
 
   } catch (error) {
     s.stop('Failed to create project');

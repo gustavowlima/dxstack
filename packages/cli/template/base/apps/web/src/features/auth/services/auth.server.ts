@@ -1,15 +1,10 @@
 import { createServerFn } from "@tanstack/react-start";
-import { serverApi } from "@/lib/orpc";
-import { getRequestHeaders } from "@tanstack/react-start/server";
+import { getApi } from "@/lib/orpc";
 
 export const fetchSession = createServerFn({ method: "GET" }).handler(
   async () => {
-    const headers = getRequestHeaders();
-
-    return serverApi.auth.getSession(undefined, {
-      headers: {
-        cookie: headers.cookie || "",
-      },
-    });
+    const api = getApi();
+    const session = await api.auth.getSession();
+    return session;
   },
 );

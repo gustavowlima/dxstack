@@ -84,9 +84,8 @@ export function LoginForm() {
                 }}
                 className="flex flex-col gap-4 pt-4"
               >
-                <signInForm.Field
-                  name="email"
-                  children={(field) => (
+                <signInForm.Field name="email">
+                  {(field) => (
                     <div className="flex flex-col gap-1.5">
                       <Label htmlFor={field.name}>Email</Label>
                       <Input
@@ -102,15 +101,14 @@ export function LoginForm() {
                       <FieldError errors={field.state.meta.errors} />
                     </div>
                   )}
-                />
-                <signInForm.Field
-                  name="password"
-                  children={(field) => (
+                </signInForm.Field>
+                <signInForm.Field name="password">
+                  {(field) => (
                     <div className="flex flex-col gap-1.5">
                       <div className="flex items-center justify-between">
                         <Label htmlFor={field.name}>Password</Label>
                         <a
-                          href="#"
+                          href="/forgot-password"
                           className="text-xs text-muted-foreground hover:text-foreground"
                         >
                           Forgot password?
@@ -128,7 +126,7 @@ export function LoginForm() {
                       <FieldError errors={field.state.meta.errors} />
                     </div>
                   )}
-                />
+                </signInForm.Field>
                 {authError && (
                   <p className="rounded-md bg-destructive/10 px-3 py-2 text-xs text-destructive">
                     {authError}
@@ -157,9 +155,8 @@ export function LoginForm() {
                 }}
                 className="flex flex-col gap-4 pt-4"
               >
-                <signUpForm.Field
-                  name="name"
-                  children={(field) => (
+                <signUpForm.Field name="name">
+                  {(field) => (
                     <div className="flex flex-col gap-1.5">
                       <Label htmlFor={field.name}>Full name</Label>
                       <Input
@@ -173,10 +170,9 @@ export function LoginForm() {
                       <FieldError errors={field.state.meta.errors} />
                     </div>
                   )}
-                />
-                <signUpForm.Field
-                  name="email"
-                  children={(field) => (
+                </signUpForm.Field>
+                <signUpForm.Field name="email">
+                  {(field) => (
                     <div className="flex flex-col gap-1.5">
                       <Label htmlFor={`${field.name}-signup`}>Email</Label>
                       <Input
@@ -191,10 +187,9 @@ export function LoginForm() {
                       <FieldError errors={field.state.meta.errors} />
                     </div>
                   )}
-                />
-                <signUpForm.Field
-                  name="password"
-                  children={(field) => (
+                </signUpForm.Field>
+                <signUpForm.Field name="password">
+                  {(field) => (
                     <div className="flex flex-col gap-1.5">
                       <Label htmlFor={`${field.name}-signup`}>Password</Label>
                       <Input
@@ -208,7 +203,7 @@ export function LoginForm() {
                       <FieldError errors={field.state.meta.errors} />
                     </div>
                   )}
-                />
+                </signUpForm.Field>
                 {authError && (
                   <p className="rounded-md bg-destructive/10 px-3 py-2 text-xs text-destructive">
                     {authError}
@@ -261,11 +256,11 @@ export function LoginForm() {
 
       <p className="text-center text-xs text-muted-foreground">
         By continuing, you agree to our{" "}
-        <a href="#" className="underline hover:text-foreground">
+        <a href="/terms" className="underline hover:text-foreground">
           Terms
         </a>{" "}
         and{" "}
-        <a href="#" className="underline hover:text-foreground">
+        <a href="/privacy" className="underline hover:text-foreground">
           Privacy Policy
         </a>
         .
