@@ -1,9 +1,16 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.4.5/schema.json",
   "extends": ["ultracite/biome/core"],
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "vcs": {
     "enabled": false,
     "clientKind": "git",
     "useIgnoreFile": false
+  },
+  "linter": {
+    "rules": {
+      "performance": {
+        "noNamespaceImport": "off"
+      }
+    }
   }
 }

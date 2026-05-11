@@ -50,6 +50,13 @@ async function main() {
 
   if (typeof includeExpo === 'symbol') return outro('Operation cancelled');
 
+  const includeDocker = await confirm({
+    message: 'Include Docker Compose (PostgreSQL)?',
+    initialValue: true,
+  });
+
+  if (typeof includeDocker === 'symbol') return outro('Operation cancelled');
+
   const s = spinner();
   const targetPath = path.resolve(process.cwd(), projectName as string);
 
@@ -141,7 +148,14 @@ async function main() {
       await fs.copy(mobileTemplatePath, mobileDestPath);
     }
 
-    // 4. Initialize Git
+    // 4. Handle Docker Compose selection
+    if (includeDocker) {
+      s.message('Adding Docker Compose with PostgreSQL...');
+      const dockerTemplatePath = path.join(templatePath, 'extras/docker');
+      await fs.copy(dockerTemplatePath, targetPath);
+    }
+
+    // 5. Initialize Git
     s.message('Initializing git repository...');
     try {
       execSync('git init', { cwd: targetPath, stdio: 'ignore' });
@@ -157,9 +171,12 @@ async function main() {
     console.log(kleur.cyan(`  1. cd ${projectName}`));
     console.log(kleur.cyan('  2. bun install'));
     console.log(kleur.cyan('  3. cp .env.example .env'));
-    console.log(kleur.cyan('  4. bun db:generate  ') + kleur.dim('(Crucial for Prisma)'));
-    console.log(kleur.cyan('  5. bun auth:generate ') + kleur.dim('(To sync auth tables)'));
-    console.log(kleur.cyan('  6. bun dev'));
+    if (includeDocker) {
+      console.log(kleur.cyan('  4. docker compose up -d ') + kleur.dim('(Start PostgreSQL)'));
+    }
+    console.log(kleur.cyan(includeDocker ? '  5. bun db:generate  ' : '  4. bun db:generate  ') + kleur.dim('(Crucial for Prisma)'));
+    console.log(kleur.cyan(includeDocker ? '  6. bun auth:generate ' : '  5. bun auth:generate ') + kleur.dim('(To sync auth tables)'));
+    console.log(kleur.cyan(includeDocker ? '  7. bun dev' : '  6. bun dev'));
 
   } catch (error) {
     s.stop('Failed to create project');
